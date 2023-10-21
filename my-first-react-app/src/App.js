@@ -7,7 +7,7 @@ import logo from './logo.svg';
 function App() {
   const mapRef = useRef();
   const [map, setMap] = useState(null);
-  const [location, setLocation] = useState(''); // Initialize location state
+  const [selectedBorough, setSelectedBorough] = useState(''); // Initialize selected borough state
 
   const setMapInstance = (googleMap) => {
     setMap(googleMap);
@@ -30,8 +30,8 @@ function App() {
         </a>
       </header>
       <h1>StreetSense</h1>
-      <LocationInput updateMap={setLocation} map={map} />
-      <Map ref={mapRef} location={location} />
+      <LocationInput updateMap={setSelectedBorough} map={map} />
+      <Map ref={mapRef} location={selectedBorough} />
     </div>
   );
 }

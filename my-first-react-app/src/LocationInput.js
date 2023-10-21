@@ -4,33 +4,38 @@ class LocationInput extends Component {
   constructor() {
     super();
     this.state = {
-      location: '', // Initialize the location state
+      selectedBorough: '', // Initialize the selected borough state
     };
   }
 
-  handleInputChange = (e) => {
-    this.setState({ location: e.target.value });
+  handleSelectChange = (e) => {
+    this.setState({ selectedBorough: e.target.value });
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const { updateMap } = this.props;
-    const { location } = this.state;
-    
-    if (location) {
-      updateMap(location); // Pass the location to the updateMap function
+    const { selectedBorough } = this.state;
+
+    if (selectedBorough) {
+      updateMap(selectedBorough); // Pass the selected borough to the updateMap function
     }
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Where are you going?"
-          value={this.state.location}
-          onChange={this.handleInputChange}
-        />
+        <select
+          value={this.state.selectedBorough}
+          onChange={this.handleSelectChange}
+        >
+          <option value="">Select a borough</option>
+          <option value="staten_island">Staten Island</option>
+          <option value="brooklyn">Brooklyn</option>
+          <option value="queens">Queens</option>
+          <option value="bronx">Bronx</option>
+          <option value="manhattan">Manhattan</option>
+        </select>
         <button type="submit">Submit</button>
       </form>
     );

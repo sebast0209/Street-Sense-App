@@ -1,3 +1,5 @@
+//this is map.js
+
 import React, { Component } from 'react';
 
 class Map extends Component {
@@ -31,16 +33,29 @@ class Map extends Component {
 
   setMapLocation(location) {
     console.log("ZOOM");
-
+  
     if (location.toLowerCase() === 'queens') {
-      this.map.setCenter({ lat: 40.742054, lng: -73.769417 });
+      this.map.setCenter({ lat: 40.7282, lng: -73.7949 });
       this.map.setZoom(12.5); // Set an appropriate zoom level for Queens
-    } else {
-      // Reset the map to the specified coordinates
-      this.map.setCenter({ lat: 40.735657, lng: -74.172363 });
+    } else if (location.toLowerCase() === 'bronx') {
+      this.map.setCenter({ lat: 40.8448, lng: -73.8648 });
       this.map.setZoom(12.5);
+    } else if (location.toLowerCase() === 'manhattan') {
+      this.map.setCenter({ lat: 40.7831, lng: -73.9712 });
+      this.map.setZoom(12.5);
+    } else if (location.toLowerCase() === 'staten_island') {
+      this.map.setCenter({ lat: 40.5795, lng: -74.1502 });
+      this.map.setZoom(12.5);
+    } else if (location.toLowerCase() === 'brooklyn') {
+      this.map.setCenter({ lat: 40.6782, lng: -73.9442 });
+      this.map.setZoom(12.5);
+    } else {
+      // Reset the map to the default New York coordinates
+      this.map.setCenter({ lat: 40.7128, lng: -74.0060 });
+      this.map.setZoom(11);
     }
   }
+  
 
   getDefaultCenter() {
     return { lat: 40.7128, lng: -74.0060 }; // Default to New York City coordinates

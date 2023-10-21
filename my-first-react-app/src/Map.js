@@ -1,5 +1,3 @@
-//this is map.js
-
 import React, { Component } from 'react';
 
 class Map extends Component {
@@ -26,14 +24,14 @@ class Map extends Component {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: this.getDefaultCenter(),
       zoom: 11,
+      minZoom: 11, // Set a minimum zoom level
+      maxZoom: 12.5, // Set a maximum zoom level
     });
 
     this.map = map; // Store a reference to the map object
   }
 
   setMapLocation(location) {
-    console.log("ZOOM");
-  
     if (location.toLowerCase() === 'queens') {
       this.map.setCenter({ lat: 40.7282, lng: -73.7949 });
       this.map.setZoom(12.5); // Set an appropriate zoom level for Queens
@@ -51,11 +49,10 @@ class Map extends Component {
       this.map.setZoom(12.5);
     } else {
       // Reset the map to the default New York coordinates
-      this.map.setCenter({ lat: 40.7128, lng: -74.0060 });
+      this.map.setCenter(this.getDefaultCenter());
       this.map.setZoom(11);
     }
   }
-  
 
   getDefaultCenter() {
     return { lat: 40.7128, lng: -74.0060 }; // Default to New York City coordinates

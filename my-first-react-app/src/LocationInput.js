@@ -14,24 +14,13 @@ class LocationInput extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    // Process the location here and update the map
-    this.processLocation();
-  }
-  
-  processLocation() {
-    const location = this.state.location;
     const { updateMap } = this.props;
+    const { location } = this.state;
     
-    if (location.toLowerCase() === 'queens') {
-      console.log('QUEENS');
-      updateMap(this.map);
-       // Use the updateMap function to set the map
-    } else {
-      console.log('ZOOM 2');
-      // Handle other locations or geocoding as needed
+    if (location) {
+      updateMap(location); // Pass the location to the updateMap function
     }
   }
-  
 
   render() {
     return (

@@ -15,7 +15,8 @@ class Map extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      this.setMapLocation(this.props.location || 'default'); // Provide a default value
+      this.resetToDefaultZoom(); // Reset the zoom level to 11
+      this.setMapLocation(this.props.location || 'default'); // Set the new location
     }
   }
 
@@ -52,6 +53,11 @@ class Map extends Component {
       this.map.setCenter(this.getDefaultCenter());
       this.map.setZoom(11);
     }
+  }
+
+  resetToDefaultZoom() {
+    // Reset the map to the default New York zoom level (zoom 11)
+    this.map.setZoom(11);
   }
 
   getDefaultCenter() {

@@ -8,15 +8,15 @@ class Map extends Component {
   initMap() {
     // Create a new map instance and set its properties
     const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 0, lng: 0 }, // Default center
-      zoom: 8, // Default zoom level
+      center: { lat: 40.7128, lng: -74.0060 }, // New York City coordinates
+      zoom: 11, // Zoom level to focus on New York
     });
-
+  
     // You can add markers, controls, and other interactive elements here
   }
 
   render() {
-    return <div id="map" style={{ width: '100%', height: '400px' }} />;
+    return <div id="map" style={{ width: '100%', height: '800px' }} />;
   }
 }
 

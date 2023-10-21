@@ -1,9 +1,17 @@
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import Map from './Map';
+import LocationInput from './LocationInput';
 
 function App() {
+  const [map, setMap] = useState(null);
+  const mapRef = useRef();
+
+  const setMapInstance = (googleMap) => {
+    setMap(googleMap);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -21,11 +29,10 @@ function App() {
         </a>
       </header>
       <h1>Interactive Google Map</h1>
-      <Map />
-      {/* You can add user input fields here for location of interest */}
+      <LocationInput updateMap={setMapInstance} />
+      <Map ref={mapRef} />
     </div>
-    
   );
 }
 
-export default App;
+export default App; // This should be the only export default statement

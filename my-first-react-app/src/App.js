@@ -1,3 +1,5 @@
+// this is app.js
+
 import React, { useState, useRef } from 'react';
 import './App.css';
 import LocationInput from './LocationInput';

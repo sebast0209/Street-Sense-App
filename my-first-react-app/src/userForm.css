@@ -5,17 +5,17 @@
 
 .form-container {
     max-width: 400px;
-    margin-top: 45px;
-    padding: 20px;
-    width: 70%;
-    background-color: #fff; /* Remove the border and background color */
-    border-radius: 8px;
+    margin-top: 106px;
+    padding: 0px;
+    width: 100%;
+    background-color: rgb(255, 255, 255); /*BGCOLOR*/
+    border-radius: 0px;
     box-shadow: none; /* Remove the box shadow */
     border: none; /* Remove the border */
   }
   
   .form-container div {
-    margin-bottom: 20px;
+    margin-bottom: 17.3px;
   }
   
   /* The rest of your CSS styles remain the same */
@@ -25,6 +25,7 @@
   
 
 label {
+    color: black;
     font-size:10 px;
     display: block;
     margin-top: 1px;

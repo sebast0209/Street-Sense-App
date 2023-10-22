@@ -31,30 +31,34 @@ class Map extends Component {
 
     this.map = map; // Store a reference to the map object
   }
-
   setMapLocation(location) {
-    if (location.toLowerCase() === 'queens') {
-      this.map.setCenter({ lat: 40.7282, lng: -73.7949 });
-      this.map.setZoom(12.5); // Set an appropriate zoom level for Queens
-    } else if (location.toLowerCase() === 'bronx') {
-      this.map.setCenter({ lat: 40.8448, lng: -73.8648 });
-      this.map.setZoom(12.5);
-    } else if (location.toLowerCase() === 'manhattan') {
-      this.map.setCenter({ lat: 40.7831, lng: -73.9712 });
-      this.map.setZoom(12.5);
-    } else if (location.toLowerCase() === 'staten_island') {
-      this.map.setCenter({ lat: 40.5795, lng: -74.1502 });
-      this.map.setZoom(12.5);
-    } else if (location.toLowerCase() === 'brooklyn') {
-      this.map.setCenter({ lat: 40.6782, lng: -73.9442 });
-      this.map.setZoom(12.5);
-    } else {
-      // Reset the map to the default New York coordinates
-      this.map.setCenter(this.getDefaultCenter());
-      this.map.setZoom(11);
-    }
+    this.map.setZoom(11);
+  
+    // Use setTimeout to introduce a 3-second delay before setting the map location
+    setTimeout(() => {
+      if (location.toLowerCase() === 'queens') {
+        this.map.setCenter({ lat: 40.7282, lng: -73.7949 });
+        this.map.setZoom(12.5);
+      } else if (location.toLowerCase() === 'bronx') {
+        this.map.setCenter({ lat: 40.8448, lng: -73.8648 });
+        this.map.setZoom(12.5);
+      } else if (location.toLowerCase() === 'manhattan') {
+        this.map.setCenter({ lat: 40.7831, lng: -73.9712 });
+        this.map.setZoom(12.5);
+      } else if (location.toLowerCase() === 'staten_island') {
+        this.map.setCenter({ lat: 40.5795, lng: -74.1502 });
+        this.map.setZoom(12.5);
+      } else if (location.toLowerCase() === 'brooklyn') {
+        this.map.setCenter({ lat: 40.6782, lng: -73.9442 });
+        this.map.setZoom(12.5);
+      } else {
+        // Reset the map to the default New York coordinates
+        this.map.setCenter(this.getDefaultCenter());
+        this.map.setZoom(11);
+      }
+    }, 1500); // 3000 milliseconds = 3 seconds
   }
-
+  
   resetToDefaultZoom() {
     // Reset the map to the default New York zoom level (zoom 11)
     this.map.setZoom(11);

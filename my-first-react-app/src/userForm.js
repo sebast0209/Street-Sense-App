@@ -79,21 +79,34 @@ function UserForm({ onSuccessfulSubmit }) {
                 onChange={handleChange}
             >
                 <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="FEMALE">FEMALE</option>
+                <option value="MALE">MALE</option>
+                <option value="DECLINE TO STATE">DECLINE TO STATE</option>
+                <option value="NON BINARY/OTHER">NON BINARY/OTHER</option>
+                <option value="UNKNOWN">UNKNOWN</option>
+                <option value="LGBTQ+">LGBTQ+</option>
             </select>
         </div>
 
         <div>
-            <label htmlFor="race">Race:</label>
-            <input
-                type="text"
+            <label htmlFor="race">Ethnicity:</label>
+            <select
                 id="race"
                 name="race"
                 value={formData.race}
                 onChange={handleChange}
-            />
+
+            >
+                <option value="">Select Ethnicity</option>
+                <option value="BLACK">BLACK</option>
+                <option value="WHITE">WHITE</option>
+                <option value="WHITE HISPANIC">WHITE HISPANIC</option>
+                <option value="BLACK HISPANIC">BLACK HISPANIC</option>
+                <option value="ASIAN/PACIFIC ISLANDER">ASIAN/PACIFIC ISLANDER</option>
+                <option value="AMERICAN INDIAN/ALASKAN NATIVE">AMERICAN INDIAN/ALASKAN NATIVE</option>
+                <option value="UNKNOWN">UNKNOWN</option>
+                <option value="OTHER">OTHER</option>
+            </select>
         </div>
 
         <div>

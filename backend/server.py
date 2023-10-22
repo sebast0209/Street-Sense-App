@@ -8,7 +8,7 @@ from datetime import datetime
 import pickle
 import xgboost as xgb
 
-app = Flask(__name__)
+app = Flask(_name_)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
 
@@ -25,21 +25,22 @@ def upload():
         """A function that maps Model Numerical Label Output to String Crime Label."""
 
         # Initialising Offense Label Mapping DataFrame
-        offense_mapping_df = pd.DataFrame({'OFNS_DESC':['ADMINISTRATIVE CODE','AGRICULTURE & MRKTS LAW-UNCLASSIFIED','ALCOHOLIC BEVERAGE CONTROL LAW','ARSON',
-                                                        'ASSAULT',"BURGLAR'S TOOLS",'BURGLARY','CHILD ABANDONMENT/NON SUPPORT','CRIMINAL MISCHIEF & RELATED OF',
-                                                        'CRIMINAL TRESPASS','DANGEROUS DRUGS','DANGEROUS WEAPONS','DISORDERLY CONDUCT','DISRUPTION OF A RELIGIOUS SERV',
-                                                        'ENDAN WELFARE INCOMP','ESCAPE','FELONY SEX CRIMES','FORGERY','FORTUNE TELLING','FRAUD','GAMBLING','HARRASSMENT',
-                                                        'HOMICIDE','INTOXICATED/IMPAIRED DRIVING','JOSTLING','KIDNAPPING','LARCENY','LOITERING','MISCELLANEOUS PENAL LAW',
-                                                        'MURDER','NEW YORK CITY HEALTH CODE','NYS LAWS-UNCLASSIFIED FELONY','NYS LAWS-UNCLASSIFIED VIOLATION','OFFENSE',
-                                                        'OTHER STATE LAWS','OTHER TRAFFIC INFRACTION','POSSESSION OF STOLEN PROPERTY','RAPE','ROBBERY','SEX CRIMES',
-                                                        'THEFT OF SERVICES','UNAUTHORIZED USE OF A VEHICLE','UNDER THE INFLUENCE OF DRUGS',
-                                                        'UNLAWFUL POSS. WEAP. ON SCHOOL','VEHICLE AND TRAFFIC LAWS'],
-                                           "OFNS_DESC_NUM":[i for i in range(45)]})
+        offense_mapping_df = pd.DataFrame({'OFNS_DESC': ['ADMINISTRATIVE CODE', 'AGRICULTURE & MRKTS LAW-UNCLASSIFIED', 'ALCOHOLIC BEVERAGE CONTROL LAW', 'ARSON',
+                                                         'ASSAULT', "BURGLAR'S TOOLS", 'BURGLARY', 'CHILD ABANDONMENT/NON SUPPORT', 'CRIMINAL MISCHIEF & RELATED OF',
+                                                         'CRIMINAL TRESPASS', 'DANGEROUS DRUGS', 'DANGEROUS WEAPONS', 'DISORDERLY CONDUCT', 'DISRUPTION OF A RELIGIOUS SERV',
+                                                         'ENDAN WELFARE INCOMP', 'ESCAPE', 'FELONY SEX CRIMES', 'FORGERY', 'FORTUNE TELLING', 'FRAUD', 'GAMBLING', 'HARRASSMENT',
+                                                         'HOMICIDE', 'INTOXICATED/IMPAIRED DRIVING', 'JOSTLING', 'KIDNAPPING', 'LARCENY', 'LOITERING', 'MISCELLANEOUS PENAL LAW',
+                                                         'MURDER', 'NEW YORK CITY HEALTH CODE', 'NYS LAWS-UNCLASSIFIED FELONY', 'NYS LAWS-UNCLASSIFIED VIOLATION', 'OFFENSE',
+                                                         'OTHER STATE LAWS', 'OTHER TRAFFIC INFRACTION', 'POSSESSION OF STOLEN PROPERTY', 'RAPE', 'ROBBERY', 'SEX CRIMES',
+                                                         'THEFT OF SERVICES', 'UNAUTHORIZED USE OF A VEHICLE', 'UNDER THE INFLUENCE OF DRUGS',
+                                                         'UNLAWFUL POSS. WEAP. ON SCHOOL', 'VEHICLE AND TRAFFIC LAWS'],
+                                           "OFNS_DESC_NUM": [i for i in range(45)]})
 
         # Querying DataFrame
-        offense = offense_mapping_df.loc[offense_mapping_df["OFNS_DESC_NUM"]== x, "OFNS_DESC"]
+        offense = str(offense_mapping_df[offense_mapping_df["OFNS_DESC_NUM"]
+                                         == x]["OFNS_DESC"].to_list())[2:-2]
 
-        return str(offense)
+        return offense
 
     def identify_age_group(x):
         """A function that maps User Numerical Age input to String Categorical for Model Input."""
@@ -82,12 +83,12 @@ def upload():
     })
 
     # Get Dummies
-    user_input = pd.get_dummies(user_input, columns=["VIC_AGE_GROUP_NUM", "VIC_SEX", "VIC_RACE"])
+    user_input = pd.get_dummies(
+        user_input, columns=["VIC_AGE_GROUP_NUM", "VIC_SEX", "VIC_RACE"])
 
     # Define all expected columns (the ones your model was trained on)
-    expected_columns = ['CMPLNT_HR','CMPLNT_MIN','Latitude','Longitude','VIC_AGE_GROUP_NUM_0','VIC_AGE_GROUP_NUM_1','VIC_AGE_GROUP_NUM_2',
-                        'VIC_AGE_GROUP_NUM_3','VIC_AGE_GROUP_NUM_4','VIC_AGE_GROUP_NUM_5','VIC_SEX_DECLINE TO STATE','VIC_SEX_FEMALE','VIC_SEX_LGBTQ+',
-                        'VIC_SEX_MALE','VIC_SEX_NON-BINARY/OTHER','VIC_SEX_UNKNOWN','VIC_RACE_ASIAN/PACIFIC ISLANDER','VIC_RACE_UNKNOWN']
+    expected_columns = ['CMPLNT_HR', 'CMPLNT_MIN', 'Latitude', 'Longitude', 'VIC_AGE_GROUP_NUM_0', 'VIC_AGE_GROUP_NUM_1', 'VIC_AGE_GROUP_NUM_2', 'VIC_AGE_GROUP_NUM_3', 'VIC_AGE_GROUP_NUM_4', 'VIC_AGE_GROUP_NUM_5', 'VIC_SEX_DECLINE TO STATE', 'VIC_SEX_FEMALE', 'VIC_SEX_LGBTQ+', 'VIC_SEX_MALE',
+                        'VIC_SEX_NON-BINARY/OTHER', 'VIC_SEX_UNKNOWN', 'VIC_RACE_AMERICAN INDIAN/ALASKAN NATIVE', 'VIC_RACE_ASIAN / PACIFIC ISLANDER', 'VIC_RACE_BLACK', 'VIC_RACE_BLACK HISPANIC', 'VIC_RACE_OTHER', 'VIC_RACE_UNKNOWN', 'VIC_RACE_UNKONWN', 'VIC_RACE_WHITE', 'VIC_RACE_WHITE HISPANIC']
 
     # Check for missing columns and fill with 0
     for col in expected_columns:
@@ -98,46 +99,36 @@ def upload():
     user_input = user_input[expected_columns]
 
     # Loading Model
-    with open('model.pkl', 'rb') as file:
+    with open('xgboost.pkl', 'rb') as file:
         loaded_model = pickle.load(file)
 
     # Running Model
     user_output = loaded_model.predict_proba(user_input)
 
-    # Initialising Output Function
-    def get_result(output):
-        """Function to convert model output results into json file required for front end display."""
+    # Intialising Output result dictionary
+    full_result = {
+        'Most Succeptible Crimes': [],
+        'Risk': []
+    }
 
-        # Intialising Output result dictionary
-        full_result = {
-            'Most Succeptible Crimes': [],
-            'Risk %': []
-        }
+    # Reformatting Model Output Labels
+    for crime, p in zip(loaded_model.classes_, user_output[0]):
+        full_result['Most Succeptible Crimes'].append(
+            identify_offense(crime))
+        full_result['Risk'].append(round(p, 4))
 
-        # Reformatting Model Output Labels
-        for crime, p in zip(loaded_model.classes_, user_output[0]):
+    # Get top 3 Crimes by Risk
+    result_df = pd.DataFrame(full_result).sort_values(
+        by='Risk', ascending=True)[-3:]
 
-            full_result['Most Succeptible Crimes'].append(identify_offense(crime))
-            full_result['Risk %'].append(f"{p * 100:.2f}%")
-
-        # Combine the data from both lists into a list of tuples
-        full_data = list(zip(full_result['Most Succeptible Crimes'], full_result['Risk %']))
-        sorted_data = sorted(full_data, key=lambda x: x[1], reverse=True)[:3]
-        most_susceptible_crimes, risk = zip(*sorted_data)
-
-        # Create a new dictionary with the top 3 items
-        result = {
-            'Most Succeptible Crimes': list(most_susceptible_crimes),
-            'Risk %': list(risk)
-        }
-
-        return result
-
-    # Obtain Results
-    result = get_result(user_output)
+    result = {
+        'Most Succeptible Crimes': result_df["Most Succeptible Crimes"].tolist(),
+        'Risk': result_df["Risk"].tolist()
+    }
 
     # Return Model Results
     return jsonify(result)
 
-if __name__ == '__main__':
+
+if _name_ == '_main_':
     app.run(debug=True, use_reloader=False)

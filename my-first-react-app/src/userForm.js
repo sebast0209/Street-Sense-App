@@ -31,6 +31,7 @@ function UserForm({ onSuccessfulSubmit }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(formData.borough);
         // Fetch the coordinates based on selected borough
         const { latitude, longitude } = boroughCoordinates[formData.borough];
 
@@ -44,7 +45,7 @@ function UserForm({ onSuccessfulSubmit }) {
         delete payload.borough;
 
         try {
-            const response = await axios.post('http://your-backend-url/endpoint', payload);
+            const response = await axios.post('http://127.0.0.1:5000/upload', payload);
             console.log('Data sent successfully:', response.data);
             
             // Use the callback to signal that the submission was successful
@@ -128,6 +129,7 @@ function UserForm({ onSuccessfulSubmit }) {
                 value={formData.borough}
                 onChange={handleChange}
             >
+                <option value="">Select Borough</option>
                 <option value="Brooklyn">Brooklyn</option>
                 <option value="Bronx">Bronx</option>
                 <option value="Manhattan">Manhattan</option>

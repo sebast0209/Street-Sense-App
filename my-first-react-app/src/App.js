@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import './App.css';
 import LocationInput from './LocationInput';
 import Map from './Map';
-import UserForm from './userForm';  // <-- Import UserForm
-import StatsPage from './statsPage';  // <-- Import StatsPage
+import UserForm from './userForm';  // Import UserForm
+import StatsPage from './statsPage';  // Import StatsPage
 
 function App() {
   const mapRef = useRef();
@@ -30,11 +30,17 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h1>StreetSense</h1>
-        <LocationInput updateMap={setSelectedBorough} map={map} />
-        <Map ref={mapRef} location={selectedBorough} />
-        <UserForm onSuccessfulSubmit={handleSuccessfulSubmit} />
-        {showStatsPage && <StatsPage data={responseData} onClose={handleCloseStatsPage} />}
       </header>
+      <div className="content-container">
+        <div className="map-container">
+          <LocationInput updateMap={setSelectedBorough} map={map} />
+          <Map ref={mapRef} location={selectedBorough} />
+        </div>
+        <div className="form-container">
+          <UserForm onSuccessfulSubmit={handleSuccessfulSubmit} />
+        </div>
+      </div>
+      {showStatsPage && <StatsPage data={responseData} onClose={handleCloseStatsPage} />}
     </div>
   );
 }
